@@ -51,16 +51,18 @@ def slope_field(fn, x1, x2, y1, y2, h, d, ax):
                     for j in yp]
     segments = [seg_from_point_slope(p,fn(p[0],p[1]),h) for p in points]
     plot_segments(segments,ax)
-  fig, ax = plt.subplots()
+  
+fig, ax = plt.subplots()
 ax.set(xlabel='t(seconds)',ylabel='amps',title=r'$\frac{1}{4}\frac{di}{dt}+8i=18$')
 ax.grid()
 
 fn = lambda t, i : 72-32*i
+ex = lambda t, i :9/4-(9/4)*math.e**(-32*t)
+t = np.linspace(0,0.25,1000)
 
 plot_euler(fn, 0, 0, .02, 0.25, ax, "h = .02")
 plot_euler(fn, 0, 0, .01, 0.25, ax, "h = .01")
-plot_euler(fn, 0, 0, .0001, 0.25, ax, "h = .0001")
+ax.plot(t,ex(t,0),label="exact")
 slope_field(fn, 0, 0.25, 0, 3, .05, .025, ax)
 ax.legend()
 fig.savefig("plot.png")
-    
